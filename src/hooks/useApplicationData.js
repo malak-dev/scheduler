@@ -7,8 +7,8 @@ import reducer, {
   SET_DAYS
 } from "reducers/application";
 
-export function useApplicationData() {
 
+export function useApplicationData() {
 
   const [state, dispatch] = useReducer(reducer, {
     day: "Monday",
@@ -18,7 +18,7 @@ export function useApplicationData() {
   });
   const setDay = day => dispatch({ type: SET_DAY, day });
 
-
+  // call the apis to get the data and set a new values for day ,appointments and interviewers
   useEffect(() => {
     Promise.all([axios.get('/api/days'),
     axios.get('/api/appointments'),
@@ -32,7 +32,7 @@ export function useApplicationData() {
   }, []);
 
 
-
+  // function for book a new interview  and update the value for day
   function bookInterview(id, interview) {
 
     return Promise.all([
@@ -57,7 +57,6 @@ export function useApplicationData() {
           type: SET_APPOINTMENTS,
           appointments,
           id,
-
         });
         dispatch({
           type: SET_DAYS,
@@ -65,7 +64,7 @@ export function useApplicationData() {
         });
       })
   }
-
+  // delete an interview and update the state for day
   function deleteInterview(id) {
     return Promise.all([axios.delete(`/api/appointments/${id}`),
     axios.get('/api/days')])

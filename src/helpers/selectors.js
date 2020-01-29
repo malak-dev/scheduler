@@ -1,5 +1,5 @@
 
-
+// fucntion for get all the appointments for specific day
 export function getAppointmentsForDay(state, day) {
 
   const filteredDay = state.days.filter(eachDay => eachDay.name === day);
@@ -27,6 +27,7 @@ export function getInterview(state, interview) {
     return null
   }
 }
+// get all the interviewers for specific day 
 export function getInterviewersForDay(state, day) {
   const filteredDay = state.days.filter(eachDay => eachDay.name === day);
 

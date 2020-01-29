@@ -1,5 +1,5 @@
 import { useState } from 'react'
-
+// create a custom hook
 export default function useVisualMode(initial) {
   const [history, setHistory] = useState([initial]);
   const [mode, setMode] = useState(initial)
