@@ -13,7 +13,7 @@ const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
 const SAVING = "SAVING";
-const DELETE = "DELETE";
+const DELETING = "DELETING";
 const CONFIRM = "CONFIRM";
 const EDIT = "EDIT";
 const ERROR_SAVE = "ERROR_SAVE"
@@ -30,7 +30,7 @@ export default function Appointment(props) {
   };
 
   function ConfirmDeleting(id) {
-    transition(DELETE, true);
+    transition(DELETING);
     props.deleteInterview(props.id)
       .then(() =>
         transition(EMPTY)
@@ -49,7 +49,7 @@ export default function Appointment(props) {
       .then(() =>
         transition(SHOW)
       ).catch(error =>
-        transition(ERROR_SAVE, true)
+        transition(ERROR_SAVE)
       )
   }
   function edit() {
@@ -60,7 +60,9 @@ export default function Appointment(props) {
     <>
       {
         mode === SHOW && (
-          <article className="appointment">
+          <article className="appointment"
+            data-testid="appointment" >
+
             {props.time}
             <Header />
             <Show
@@ -74,7 +76,8 @@ export default function Appointment(props) {
       }
       {
         mode === EMPTY && (
-          <article className="appointment">
+          <article className="appointment"
+            data-testid="appointment" >
             {props.time}
             <Empty onAdd={() => transition(CREATE)} />
           </article>
@@ -82,7 +85,8 @@ export default function Appointment(props) {
       }
       {
         mode === CREATE && (
-          <article className="appointment">
+          <article className="appointment"
+            data-testid="appointment" >
             <Form
               interviewers={props.interviewers}
               onCancel={() => back(EMPTY)}
@@ -92,26 +96,31 @@ export default function Appointment(props) {
         )
       }
       {mode === SAVING && (
-        <article className="appointment">
-          <Status />
+        <article className="appointment"
+          data-testid="appointment">
+          <Status message="SAVING" />
 
         </article>
       )}
-      {mode === DELETE && (
-        <article className="appointment">
-          <Status />
+      {mode === DELETING && (
+        <article className="appointment"
+          data-testid="appointment" >
+          <Status message="DELETING" />
         </article>
       )}
       {mode === CONFIRM && (
-        <article className="appointment">
+        <article className="appointment"
+          data-testid="appointment" >
 
           <Confirm
             onCancel={() => back(SHOW)}
-            onConfirm={ConfirmDeleting} />
+            onConfirm={ConfirmDeleting}
+            message="Are you sure you would like to delete?" />
         </article>
       )}
       {mode === EDIT && (
-        <article className="appointment">
+        <article className="appointment"
+          data-testid="appointment" >
           <Form
             name={props.interview.student}
             interviewers={props.interviewers}
@@ -123,8 +132,10 @@ export default function Appointment(props) {
       )}
       {
         mode === ERROR_DELETE && (
-          <article className="appointment">
+          <article className="appointment"
+            data-testid="appointment" >
             <Error
+              message="Could not Delete your changes"
               onClose={back()}
             />
           </article>
@@ -132,8 +143,10 @@ export default function Appointment(props) {
       }
       {
         mode === ERROR_SAVE && (
-          <article className="appointment">
+          <article className="appointment"
+            data-testid="appointment" >
             <Error
+              message="Could not save your changes"
               onClose={back()}
             />
           </article>
