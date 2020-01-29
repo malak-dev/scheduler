@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import axios from 'axios'
-import DayList from "components/DayList";
 import reducer, {
   SET_DAY,
   SET_APPLICATION_DATA,
-  SET_INTERVIEWERS,
   SET_APPOINTMENTS,
   SET_DAYS
 } from "reducers/application";
@@ -27,7 +25,6 @@ export function useApplicationData() {
     axios.get('/api/interviewers')])
       .then((response) => {
         const days = response[0].data
-        // console.log(response[0].data)
         const appointments = response[1].data
         const interviewers = response[2].data
         dispatch({ type: SET_APPLICATION_DATA, days, appointments, interviewers });
@@ -68,6 +65,7 @@ export function useApplicationData() {
         });
       })
   }
+
   function deleteInterview(id) {
     return Promise.all([axios.delete(`/api/appointments/${id}`),
     axios.get('/api/days')])
